@@ -20,7 +20,7 @@ public class Attempts {
 
     public Attempts(String username, Date lastModified) {
         this.username = username;
-        this.lastModified = lastModified;
+        this.lastModified = new Date(lastModified.getTime()); // Defensive copy
         this.attempts = 1;
     }
 
@@ -49,10 +49,12 @@ public class Attempts {
     }
 
     public Date getLastModified() {
-        return lastModified;
+        // Return a defensive copy to prevent external modification
+        return new Date(lastModified.getTime());
     }
 
     public void setLastModified(Date lastModified) {
-        this.lastModified = lastModified;
+        // Update with a defensive copy
+        this.lastModified = new Date(lastModified.getTime());
     }
 }
