@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<title>Flight Search Result</title>
+
+		<style type="text/css">
+
+			table {
+			    counter-reset: tableCount;     
+			}
+
+			.counterCell:before {              
+			    content: counter(tableCount); 
+			    counter-increment: tableCount; 
+			}
+
+		</style>
+
+		<div th:replace="fragments/header :: header-data"></div>
+	</head>
+
+	<body>
+		<nav th:replace="fragments/header :: navigation-bar"></nav>
+
+		<div class="container">
+			<div class="row">
+				<div class="col-12"><h5>Search Results</h5>
+					<h6>Select a Flight</h6>
+                    <form action="/selectFlight" method="post" >
+                        <div class="container">
+                            <table class="table">
+                            	<thead>
+  								<tr>
+                                	<th>#</th>
+                                    <th>Departure</th>
+                                    <th>Destination</th>
+                                    <th>Outbound Time</th>
+                                    <th>Arrival Time</th>
+                                </tr>
+								</thead>
+								<tbody>
+                                <tr th:each="displayedFlight : ${displayedFlights}">
+                                	<td class="counterCell"></td>
+                                    <td th:text="${displayedFlight.source} "></td>
+                                    <td th:text="${displayedFlight.destination} "></td>
+                                    <td th:text="${displayedFlight.departure_date_time} "></td>
+                                    <td th:text="${displayedFlight.arrivalDateTime} "></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <br>
+						  <div class="form-group row">
+						    <label for="flightIndexSelected" class="col-sm-4 col-form-label">Select the Index of Flight</label>
+						    <div class="col-sm-2">
+<!--						      <input type="text" class="form-control" id="flightIndexSelected" placeholder="Flight" name="flightIndexSelected" required>-->
+						      <select class="form-control" id="flightIndexSelected" name="flightIndexSelected" required>
+							  	<option disabled>Flight Index</option>
+								<option th:each="i : ${#numbers.sequence(1, #lists.size(displayedFlights))}" th:value="${i}" th:text="${i}"></option>
+							  </select>
+						    </div>
+						    <div class="col-sm-6">
+						    </div>
+						  </div>
+						<br>
+						<button type="submit" class="btn btn-primary">Submit</button>
+
+					</form>
+					<br>
+				</div>
+			</div>
+		</div>
+
+		<div th:replace="fragments/footer :: footer"></div>
+	</body>
+    </html>

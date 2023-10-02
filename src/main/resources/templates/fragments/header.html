@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <div th:fragment="header-data">
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width = device-width, initial-scale = 1">
+
+        <!-- Bootstrap Stylesheet -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+              integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+              crossorigin="anonymous">
+
+        <!-- Font Awesome Stylesheet -->
+        <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+        <!-- Self-defined Stylesheet -->
+        <link rel="stylesheet" th:href="@{/css/common.css}"/>
+
+        <!-- JavaScript Libraries Import -->
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+                integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+                crossorigin="anonymous"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+                integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+                crossorigin="anonymous"></script>
+        <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+                integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+                crossorigin="anonymous"></script>
+
+        <script type="text/javascript" th:src="@{/js/password_validation.js}"></script>
+        <script type="text/javascript" th:src="@{/js/show_password.js}"></script>
+        <script type="text/javascript" th:src="@{/js/credit_card_validator.js}"></script>
+        <script type="text/javascript" th:src="@{/js/passenger_validator.js}"></script>
+        <script type="text/javascript" th:src="@{/js/username_validator.js}"></script>
+    </div>
+</head>
+
+<body>
+
+<nav th:fragment="navigation-bar" class="navbar navbar-expand-lg header navbar-light bg-light sticky-top mb-5">
+
+    <!-- Logo, also link to homepage -->
+    <a class="navbar-brand align-middle mr-auto" href="/">
+        <div class="d-inline-block align-middle">
+            <h1>Secure Airways</h1>
+            <p>Travel with British Airway securely</p>
+        </div>
+    </a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#rightNavbar">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Collapse Navbar -->
+    <div class="collapse navbar-collapse mr-3 " id="rightNavbar">
+        <ul class="navbar-nav ml-auto list-inline">
+            <!--
+            <li class="nav-item list-inline-item">
+                <a class="nav-link" href="/flightSearch">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                    &nbsp;Flights
+                </a>
+            </li>
+            -->
+
+            <!-- Guest user -->
+            <div th:if="${sessionUser == null}">
+                <li class="nav-item list-inline-item">
+                    <a class="nav-link" href="/register">
+                        <i class="fa fa-user-plus" aria-hidden="true"></i>
+                        &nbsp;Register
+                    </a>
+                </li>
+
+                <li class="nav-item list-inline-item">
+                    <a class="nav-link active" href="/login">
+                        <i class="fa fa-sign-in" aria-hidden="true"></i>
+                        &nbsp;Login
+                    </a>
+                </li>
+            </div>
+
+            <!-- Not a guest -->
+            <div th:unless="${sessionUser == null}">
+
+                <li class="nav-item dropdown list-inline-item">
+                    <a class="nav-link dropdown-toggle"
+                       href="#" id="member-drop-link" data-toggle="dropdown"
+                       role="button" aria-haspopup="true" aria-expanded="false"
+                    ><i class="fa fa-user" aria-hidden="true"></i>
+                        &nbsp; <span th:text="${sessionUser.getUsername()}"></span>
+                        <div th:if="${user != null} and (${user.getUsername()} != ${(sessionUser.getUsername())})">
+                            <span th:text="'Administering: ' +  ${user.getUsername()}"></span>
+                        </div>
+                    </a>
+
+                    <!-- Member user -->
+                    <div th:each="entry: ${sessionUser.getRoles()}">
+                        <div th:if="${entry.name} == 'MEMBER'" class="dropdown-menu"
+                             aria-labelledby="member-drop-link">
+
+                            <h6 class="dropdown-header">
+                                &nbsp;Reservations
+                            </h6>
+
+                            <a class="dropdown-item" th:href="@{/getUserReservations/{username}(username = ${sessionUser.getUsername()})}">
+                                <i class="fa fa-plane" aria-hidden="true"></i>
+                                &nbsp;Reservations
+                            </a>
+
+                            <div class="dropdown-divider"></div>
+
+                            <h6 class="dropdown-header">
+                                &nbsp;Setting
+                            </h6>
+
+                            <a class="dropdown-item" th:href="@{/viewProfile/{username}(username = ${sessionUser.getUsername()})}">
+                                <i class="fa fa-user-circle" aria-hidden="true"></i>
+                                &nbsp;Profile
+                            </a>
+
+                            <a class="dropdown-item" href="/logout">
+                                <i class="fa fa-sign-out" aria-hidden="true"></i>
+                                &nbsp;Log Out
+                            </a>
+                        </div>
+
+<!--                        Admin dropdown menu-->
+                        <div th:if="${entry.name} == 'ADMIN'" class="dropdown-menu"
+                             aria-labelledby="member-drop-link">
+
+                            <h6 class="dropdown-header">
+                                &nbsp;Reservations
+                            </h6>
+
+                            <a class="dropdown-item" th:href="@{/users}">
+                                <i class="fa fa-plane" aria-hidden="true"></i>
+                                &nbsp;Users
+                            </a>
+
+                            <a class="dropdown-item" th:href="@{/flights}">
+                                <i class="fa fa-plane" aria-hidden="true"></i>
+                                Flights
+                            </a>
+
+                            <a class="dropdown-item" th:href="@{/reservations}">
+                                <i class="fa fa-plane" aria-hidden="true"></i>
+                                Reservations
+                            </a>
+
+                            <div class="dropdown-divider"></div>
+
+                            <h6 class="dropdown-header">
+                                &nbsp;Setting
+                            </h6>
+
+                            <a class="dropdown-item" th:href="@{/viewProfile/{username}(username = ${sessionUser.getUsername()})}">
+                                <i class="fa fa-user-circle" aria-hidden="true"></i>
+                                &nbsp;Profile
+                            </a>
+
+                            <a class="dropdown-item" href="/logout">
+                                <i class="fa fa-sign-out" aria-hidden="true"></i>
+                                &nbsp;Log Out
+                            </a>
+                        </div>
+
+                        <div th:if="${entry.name} == 'GUEST'" class="dropdown-menu"
+                             aria-labelledby="member-drop-link">
+
+                            <a class="dropdown-item" href="/login">
+                                <i class="fa fa-sign-out" aria-hidden="true"></i>
+                                &nbsp;Log In
+                            </a>
+                        </div>
+                    </div>
+                </li>
+            </div>
+        </ul>
+    </div>
+</nav>
+</body>
+
+</html>
+
