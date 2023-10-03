@@ -29,7 +29,7 @@ public class JwtToken {
     public JwtToken(){}
 
     public JwtToken(User user, String token){
-        this.user = user;
+        this.user = new User(user); // Make a copy of the User object
         this.expirationDate = new Date(new Date().getTime() + EXPIRATION_TIME);
         this.jwtToken = token;
         this.logout = false;
@@ -44,19 +44,19 @@ public class JwtToken {
     }
 
     public Date getExpirationDate(){
-        return expirationDate;
+        return new Date(expirationDate.getTime()); // Make a copy of the Date object
     }
 
     public void setExpirationDate(Date createdDate) {
-        this.expirationDate = createdDate;
+        this.expirationDate = new Date(createdDate.getTime()); // Make a copy of the Date object
     }
 
     public User getUser() {
-        return new User(this.user); // Assuming User has a copy constructor
+        return new User(this.user); // Make a copy of the User object
     }
 
     public void setUser(User user) {
-        this.user = user;
+        this.user = new User(user); // Make a copy of the User object
     }
 
     public long getTokenid() {
