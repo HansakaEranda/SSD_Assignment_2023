@@ -59,7 +59,9 @@ public class Reservation {
     @JsonIgnore
     private List<Passenger> passengers = new ArrayList<>();
 
-
+    public List<Passenger> getPassengers() {
+        return new ArrayList<>(passengers);
+    }
 
     public Reservation() {
         super();

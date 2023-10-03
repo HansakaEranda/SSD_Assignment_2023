@@ -8,10 +8,7 @@ import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static ucd.comp47660.filter.RegexConstants.NAME_REGEX;
 import static ucd.comp47660.filter.RegexConstants.PASSWORD_REGEX;
@@ -98,7 +95,7 @@ public class User {
     private boolean accountNonLocked;
 
     public Set<Role> getRoles() {
-        return this.roles;
+        return Collections.unmodifiableSet(this.roles);
     }
 
     public void setRoles(Set<Role> roles) {

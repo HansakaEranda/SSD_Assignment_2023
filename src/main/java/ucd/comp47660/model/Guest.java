@@ -41,11 +41,20 @@ public class Guest {
     @JsonIgnore
     private List<Reservation> reservations = new ArrayList<>();
 
+    // Modified getReservations() method
+    public List<Reservation> getReservations() {
+        return new ArrayList<>(reservations);
+    }
+
     @Column
     @JsonIgnore
     @ToString.Exclude
     @OneToMany(mappedBy = "guest", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<Passenger> passengers = new ArrayList<>();
+
+    public List<Passenger> getPassenger() {
+        return new ArrayList<>(passengers);
+    }
 
     public Guest() {
         super();
@@ -58,8 +67,8 @@ public class Guest {
         this.phone = phone;
         this.email = email;
         this.address = address;
-        this.reservations = reservations;
-        this.passengers = passengers;
+        this.reservations = getReservations();
+        this.passengers = getPassenger();
     }
 }
 

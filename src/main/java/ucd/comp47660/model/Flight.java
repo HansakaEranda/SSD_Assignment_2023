@@ -29,7 +29,7 @@ public class Flight {
     private Date departure_date_time;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Date cancelLimitTime;
+        private Date cancelLimitTime;
 
     @NotBlank
     @Temporal(TemporalType.TIMESTAMP)
@@ -56,4 +56,5 @@ public class Flight {
         ct.setTime(this.departure_date_time.getTime() - (3600 * 1000 * 24));
         return ct;
     }
+
 }

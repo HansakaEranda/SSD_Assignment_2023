@@ -52,7 +52,7 @@ public class JwtToken {
     }
 
     public User getUser() {
-        return user;
+        return new User(this.user); // Assuming User has a copy constructor
     }
 
     public void setUser(User user) {
