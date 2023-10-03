@@ -138,5 +138,20 @@ public class User {
         this.reservations = reservations;
         this.accountNonLocked = true;
     }
+
+    // Change the return type to provide a defensive copy or an unmodifiable list.
+    public List<Reservation> getReservations() {
+        return Collections.unmodifiableList(reservations);
+    }
+
+    // Add a method to add reservations to the list.
+    public void addReservation(Reservation reservation) {
+        reservations.add(reservation);
+    }
+
+    // Add a method to remove reservations from the list.
+    public void removeReservation(Reservation reservation) {
+        reservations.remove(reservation);
+    }
 }
 

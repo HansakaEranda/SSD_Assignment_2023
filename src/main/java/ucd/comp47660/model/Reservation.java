@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.ToString;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Entity
@@ -59,10 +60,6 @@ public class Reservation {
     @JsonIgnore
     private List<Passenger> passengers = new ArrayList<>();
 
-    public List<Passenger> getPassengers() {
-        return new ArrayList<>(passengers);
-    }
-
     public Reservation() {
         super();
     }
@@ -72,5 +69,20 @@ public class Reservation {
         this.email = email;
         this.flight_reference = flight_reference;
         this.cancelled = false;
+    }
+
+    // Change the return type to provide a defensive copy or an unmodifiable list.
+    public List<Passenger> getPassengers() {
+        return Collections.unmodifiableList(passengers);
+    }
+
+    // Add a method to add passengers to the list.
+    public void addPassenger(Passenger passenger) {
+        passengers.add(passenger);
+    }
+
+    // Add a method to remove passengers from the list.
+    public void removePassenger(Passenger passenger) {
+        passengers.remove(passenger);
     }
 }
