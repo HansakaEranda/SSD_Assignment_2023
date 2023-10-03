@@ -270,14 +270,11 @@ public class ReservationController {
 //            LOGGER.info("%s", "List all users called by <" + sessionUser.getUsername() + "> with the role of <" + sessionUser.getRoles() + ">");
         }
 
-        // Updated code
         StringBuilder userRoles = new StringBuilder();
-        if (sessionUser != null) { // Check if sessionUser is not null
-            for (Role role : sessionUser.getRoles()) {
-                userRoles.append(role.getName());
-            }
+        for (Role role : userRepository.findByUsername(sessionUser.getUsername()).getRoles()) {
+            userRoles.append(role.getName());
         }
-Re
+
         user = sessionUser;
         model.addAttribute("user", user);
 
