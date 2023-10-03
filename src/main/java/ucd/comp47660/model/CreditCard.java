@@ -10,6 +10,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static ucd.comp47660.filter.RegexConstants.CREDIT_CARD_REGEX;
@@ -70,4 +71,11 @@ public class CreditCard {
         return maskedDetails;
     }
 
+    public List<Reservation> getReservations() {
+        return Collections.unmodifiableList(reservations);
+    }
+
+    public User getUser() {
+        return new User(user); // Return a defensive copy of the User object
+    }
 }

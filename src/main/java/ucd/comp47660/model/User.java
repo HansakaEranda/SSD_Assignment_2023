@@ -125,7 +125,7 @@ public class User {
         return this.credit_cards;
     }
 
-    public User() {
+    public User(User user) {
         super();
     }
 
